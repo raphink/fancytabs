@@ -17,7 +17,7 @@
 % \iffalse
 %<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
 %<package>\ProvidesPackage{fancytabs}
-%<package>   [2011/04/16 1.1 Fancy page border tabs]
+%<package>   [2011/04/17 1.2 Fancy page border tabs]
 %
 %<*driver>
 \documentclass{ltxdoc}
@@ -33,6 +33,7 @@
 %
 % \CheckSum{0}
 %
+% \changes{v1.2}{2011/04/17}{Add tabgap to fancytabs. Fix tabtop by adding tabheight/2}
 % \changes{v1.1}{2011/04/16}{Add tabtextvpos and tabtexthpos macros}
 % \changes{v1.0}{2011/04/14}{Initial version}
 %
@@ -154,6 +155,12 @@
 %  You can set this value with
 %  |\renewcommand{\tabtexthpos}{<value>}|.
 %
+% \DescribeMacro{\tabgap}
+%  Define the gap between two tabs.
+%  Default is |0in|.
+%  You can set this value with
+%  |\renewcommand{\tabgap}{<value>}|.
+%
 % \StopEventually{\PrintIndex}
 %
 % \section{Implementation}
@@ -169,6 +176,7 @@
 \newcommand{\tabtop}{\tabheight}
 \newcommand{\tabtextvpos}{0.5}
 \newcommand{\tabtexthpos}{\tabtextvpos}
+\newcommand{\tabgap}{0in}
 %  \end{macrocode}
 %
 % \begin{macro}{\fancytab}
@@ -176,7 +184,7 @@
 %  \begin{macrocode}
 \newcommand{\fancytab}[2]{%
   \begin{tikzpicture}[remember picture,overlay]
-    \node[yshift={-\tabtop-1*mod(#2-1,\tabcount)*\tabheight},
+    \node[yshift={-1*(\tabtop+\tabheight/2+mod(#2-1,\tabcount)*(\tabheight+\tabgap))},
                   xshift=-0.5*\tabwidth]
       at (current page.north east) {
       \tikz\shade[shading=axis,bottom color=\tableftcolor,
