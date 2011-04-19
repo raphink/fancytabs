@@ -34,7 +34,7 @@
 %
 % \CheckSum{0}
 %
-% \changes{v1.4}{2011/04/19}{Protect internal macros. Display a fancytab in documentation}
+% \changes{v1.4}{2011/04/19}{Protect internal macros. Display a fancytab in documentation. Make it babel-safe.}
 % \changes{v1.3}{2011/04/18}{Add tabfloor and accessors}
 % \changes{v1.2}{2011/04/17}{Add tabgap. Fix tabtop by adding tabheight/2}
 % \changes{v1.1}{2011/04/16}{Add tabtextvpos and tabtexthpos macros}
@@ -49,11 +49,9 @@
 %
 % \maketitle
 % 
-% \fancytab{Fancytabs}{1}
-%
 % \begin{abstract}
-%  The \textsf{fancytabs} package allows to insert tabs
-%  on the border of pages.
+% The \textsf{fancytabs} package allows to insert tabs
+% on the border of pages.
 % \end{abstract}
 %
 % \section{Usage}
@@ -61,10 +59,10 @@
 % \subsection{Adding a tab}
 %
 % \DescribeMacro{\fancytab}
-%  The |\fancytab| macro adds a new tab.
-%  It takes two arguments:
-%  |\fancytab{<text>}{<position>}|
-%  and displays the text in the tab, on given vertical position.
+% The |\fancytab| macro adds a new tab.
+% It takes two arguments:
+% |\fancytab{<text>}{<position>}|
+% and displays the text in the tab, on given vertical position.
 %
 % \subsection{Adding a tab to all odd pages with scrpage2}
 %
@@ -193,11 +191,31 @@
 \newcommand{\fancytabsFloor}[1]{\renewcommand{\tab@floor}{#1}}
 %  \end{macrocode}
 %
+% \subsection{Babel safety}
+%
+% Some |babel| packages (such as |frenchb|) handle semi-colons which
+% is incompatible with |tikz|. This part disables semi-colon handling
+% by babel locally.
+%
+%  \begin{macrocode}
+\AtBeginDocument{\@ifpackageloaded{babel}
+  {%
+    \g@addto@macro\tikz@installcommands{%
+      \shorthandoff{;}%
+    }%
+    \g@addto@macro\tikz@uninstallcommands{%
+      \shorthandon{;}%
+    }%
+  }%
+  {}%
+}
+%  \end{macrocode}
+%
 % \begin{macro}{\fancytab}
 % We define the |\fancytab| macro to generate a new tab.
 %  \begin{macrocode}
 \newcommand{\fancytab}[2]{%
-  \begin{tikzpicture}[remember picture,overlay]
+  \begin{tikzpicture}[remember picture,overlay]%
     \node[yshift={-1*(\tab@top+\tab@height/2+
                  mod(#2-1-\tab@floor,\tab@count)*
                  (\tab@height+\tab@gap))},
@@ -208,12 +226,13 @@
         (0,0) rectangle (\tab@width,\tab@height)
            node[rotate=90]
                   at (\tab@texthpos*\tab@width,\tab@textvpos*\tab@height)
-                      {\tab@style#1};
-    };
+                      {\tab@style#1};%
+    };%
   \end{tikzpicture}%
 }
 %  \end{macrocode}
 % \end{macro}
+%
 %  \begin{macrocode}
 \makeatother
 %  \end{macrocode}
