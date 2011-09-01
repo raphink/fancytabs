@@ -1,53 +1,92 @@
 % \iffalse meta-comment
 %
-% Copyright (C) 2011 by Raphaël Pinson
+% Copyright (C) 2011 by Raphaël Pinson <raphink@gmail.com>
+% ---------------------------------------------------------------------------
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+%   http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
 %
-% This file may be distributed and/or modified under the
-% conditions of the LaTeX Project Public License, either
-% version 1.2 of this license or (at your option) any later
-% version. The latest version of this license is in:
+% This work has the LPPL maintenance status `maintained'.
 %
-% http://www.latex-project.org/lppl.txt
+% The Current Maintainer of this work is Raphaël Pinson.
 %
-% and version 1.2 or later is part of all distributions of
-% LaTeX version 1999/12/01 or later.
+% This work consists of the files fancytabs.dtx and fancytabs.ins
+% and the derived filebase fancytabs.sty.
 %
 % \fi
 %
 % \iffalse
+%<*driver>
+\ProvidesFile{fancytabs.dtx}
+%</driver>
 %<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
 %<package>\ProvidesPackage{fancytabs}
-%<package>   [2011/04/20 1.4 Fancy page border tabs]
+%<*package>
+   [2011/09/01 1.5 Fancy page border tabs]
+%</package>
 %
 %<*driver>
 \documentclass{ltxdoc}
 \usepackage{fancytabs}
+\usepackage{scrpage2}
 \EnableCrossrefs
 \CodelineIndex
 \RecordChanges
-\OnlyDescription
 \begin{document}
  \DocInput{fancytabs.dtx}
+ \PrintChanges
+ \PrintIndex
 \end{document}
 %</driver>
 % \fi
 %
-% \CheckSum{0}
+% \CheckSum{104}
 %
+% \CharacterTable
+%  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
+%   Lower-case    \a\b\c\d\e\f\g\h\i\j\k\l\m\n\o\p\q\r\s\t\u\v\w\x\y\z
+%   Digits        \0\1\2\3\4\5\6\7\8\9
+%   Exclamation   \!     Double quote  \"     Hash (number) \#
+%   Dollar        \$     Percent       \%     Ampersand     \&
+%   Acute accent  \'     Left paren    \(     Right paren   \)
+%   Asterisk      \*     Plus          \+     Comma         \,
+%   Minus         \-     Point         \.     Solidus       \/
+%   Colon         \:     Semicolon     \;     Less than     \<
+%   Equals        \=     Greater than  \>     Question mark \?
+%   Commercial at \@     Left bracket  \[     Backslash     \\
+%   Right bracket \]     Circumflex    \^     Underscore    \_
+%   Grave accent  \`     Left brace    \{     Vertical bar  \|
+%   Right brace   \}     Tilde         \~}
+%
+%
+% \changes{v1.5}{2011/09/01}{Bugfix: Put rotate box around text only (thanks to Wolfgang Ulmer)}
 % \changes{v1.4}{2011/04/20}{Protect internal macros. Display a fancytab in documentation. Make it babel-safe.}
 % \changes{v1.3}{2011/04/18}{Add tabfloor and accessors}
 % \changes{v1.2}{2011/04/17}{Add tabgap. Fix tabtop by adding tabheight/2}
 % \changes{v1.1}{2011/04/16}{Add tabtextvpos and tabtexthpos macros}
 % \changes{v1.0}{2011/04/14}{Initial version}
+
+% \DoNotIndex{\newcommand,\newenvironment}
 %
+% \providecommand*{\url}{\texttt}
 % \GetFileInfo{fancytabs.dtx}
-%
 % \title{The \textsf{fancytabs} package\thanks{This document
 %  corresponds to \textsf{fancytabs}~\fileversion,
 %  dated~\filedate.}}
-% \author{Rapha\"el Pinson \\ \texttt{raphink@gmail.com}}
+% \author{Rapha\"el Pinson \\ \url{raphink@gmail.com}}
+% \date{\fileversion~from \filedate}
+%
+% \fancytabsStyle{\small\scshape}
+% \chead{\fancytab{The Fancytabs Manual}{1}}
+% \pagestyle{scrheadings}
 %
 % \maketitle
+%
+% \thispagestyle{scrheadings}
 % 
 % \begin{abstract}
 % The \textsf{fancytabs} package allows to insert tabs
@@ -153,15 +192,21 @@
 % for previous chapters.
 % Default is |0|.
 %
-% \StopEventually{\PrintIndex}
+% \StopEventually{}
 %
 % \section{Implementation}
-% 
-% \subsection{Variables}
 %
-%  \begin{macrocode}
+% \iffalse
+%<*package>
+% \fi
+%
+%    \begin{macrocode}
+\ProvidesPackage{fancytabs}
 \RequirePackage{tikz}
-\makeatletter
+%    \end{macrocode}
+% 
+% \begin{macro}{Variables}
+%    \begin{macrocode}
 \newcommand{\tab@style}{\Large\scshape}
 \newcommand{\tab@height}{4cm}
 \newcommand{\tab@width}{1cm}
@@ -173,11 +218,12 @@
 \newcommand{\tab@texthpos}{\tab@textvpos}
 \newcommand{\tab@gap}{0in}
 \newcommand{\tab@floor}{0}
-%  \end{macrocode}
+%    \end{macrocode}
+% \end{macro}
 %
-% \subsection{Accessors}
 %
-%  \begin{macrocode}
+% \begin{macro}{Accessors}
+%    \begin{macrocode}
 \newcommand{\fancytabsStyle}[1]{\renewcommand{\tab@style}{#1}}
 \newcommand{\fancytabsHeight}[1]{\renewcommand{\tab@height}{#1}}
 \newcommand{\fancytabsWidth}[1]{\renewcommand{\tab@width}{#1}}
@@ -189,15 +235,17 @@
 \newcommand{\fancytabsTextHPos}[1]{\renewcommand{\tab@texthpos}{#1}}
 \newcommand{\fancytabsGap}[1]{\renewcommand{\tab@gap}{#1}}
 \newcommand{\fancytabsFloor}[1]{\renewcommand{\tab@floor}{#1}}
-%  \end{macrocode}
+%    \end{macrocode}
+% \end{macro}
 %
-% \subsection{Babel safety}
+%
+% \begin{macro}{Babel safety}
 %
 % Some |babel| packages (such as |frenchb|) handle semi-colons which
 % is incompatible with |tikz|. This part disables semi-colon handling
 % by babel locally.
 %
-%  \begin{macrocode}
+%    \begin{macrocode}
 \AtBeginDocument{\@ifpackageloaded{babel}
   {%
     \g@addto@macro\tikz@installcommands{%
@@ -209,11 +257,12 @@
   }%
   {}%
 }
-%  \end{macrocode}
+%    \end{macrocode}
+% \end{macro}
 %
 % \begin{macro}{\fancytab}
 % We define the |\fancytab| macro to generate a new tab.
-%  \begin{macrocode}
+%    \begin{macrocode}
 \newcommand{\fancytab}[2]{%
   \begin{tikzpicture}[remember picture,overlay]%
     \node[yshift={-1*(\tab@top+\tab@height/2+
@@ -230,14 +279,12 @@
     };%
   \end{tikzpicture}%
 }
-%  \end{macrocode}
+%    \end{macrocode}
 % \end{macro}
 %
-%  \begin{macrocode}
-\makeatother
-%  \end{macrocode}
+% \iffalse
+%</package>
+% \fi
 %
 % \Finale
 \endinput
-
-
