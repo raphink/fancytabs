@@ -224,9 +224,9 @@
       \tikz\shade[shading=axis,bottom color=\tab@leftcolor,
                   top color=\tab@rightcolor,shading angle=-90] 
         (0,0) rectangle (\tab@width,\tab@height)
-           node[rotate=90]
+           node[rotate=0]
                   at (\tab@texthpos*\tab@width,\tab@textvpos*\tab@height)
-                      {\tab@style#1};%
+                      {\rotatebox{90}{\tab@style#1}};%
     };%
   \end{tikzpicture}%
 }
