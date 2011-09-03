@@ -246,16 +246,14 @@
 % by babel locally.
 %
 %    \begin{macrocode}
-\AtBeginDocument{\@ifpackageloaded{babel}
-  {%
-    \g@addto@macro\tikz@installcommands{%
-      \shorthandoff{;}%
-    }%
-    \g@addto@macro\tikz@uninstallcommands{%
-      \shorthandon{;}%
-    }%
-  }%
-  {}%
+\AtBeginDocument{\@ifpackageloaded{babel} 
+  {\@ifundefined{active@char;}{}{% 
+    \g@addto@macro\tikz@installcommands{% 
+      \shorthandoff{;}}% 
+      \g@addto@macro\tikz@uninstallcommands{% 
+        \shorthandon{;}}% 
+  }% 
+  }{}% 
 }
 %    \end{macrocode}
 % \end{macro}
