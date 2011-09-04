@@ -25,9 +25,9 @@ $(FILE): README $(SOURCEFILES) $(DOCFILES) $(PKGFILES)
 %.sty: %.dtx %.ins
 	latex $*.ins
 
-%.pdf:
-	pdflatex $*
-	pdflatex $*
+$(CONTRIBUTION).pdf: $(CONTRIBUTION).sty
+	pdflatex -interaction=batchmode $(CONTRIBUTION).dtx
+	pdflatex -interaction=batchmode $(CONTRIBUTION).dtx
 
 upload: ctanify
 	$(CTANUPLOAD) -p
