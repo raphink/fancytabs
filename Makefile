@@ -1,7 +1,7 @@
 CTANUPLOAD=ctanupload
 
 CONTRIBUTION  = fancytabs
-VERSION       = v1.6
+VERSION       = v1.7
 SUMMARY       = Fancy page border tabs with Tikz
 NAME          = Raphaël Pinson
 EMAIL         = raphink@gmail.com
