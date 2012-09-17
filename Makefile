@@ -33,6 +33,15 @@ $(CONTRIBUTION).pdf: $(CONTRIBUTION).sty
 upload: ctanify
 	$(CTANUPLOAD) -p
 
+%.tds.zip: %.tar.gz
+	tar xzf $< $@
+
+install: $(CONTRIBUTION).tds.zip
+	unzip $< -d $(TEXINSTALLDIR)
+	mktexlsr
+
+test: $(CONTRIBUTION)-test.pdf
+
 clean:
 	rm -f *.aux *.glo *.idx *.log
 	rm -f $(DOCFILES) $(PKGFILES)
