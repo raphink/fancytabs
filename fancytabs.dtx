@@ -26,7 +26,7 @@
 %<package>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
 %<package>\ProvidesPackage{fancytabs}
 %<*package>
-   [2011/09/04 1.7 Fancy page border tabs with Tikz]
+   [2012/09/17 1.8 Fancy page border tabs with Tikz]
 %</package>
 %
 %<*driver>
@@ -44,7 +44,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{105}
+% \CheckSum{123}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -63,6 +63,7 @@
 %   Right brace   \}     Tilde         \~}
 %
 %
+% \changes{v1.8}{2012/09/17}{Use lengths were fit}
 % \changes{v1.7}{2011/09/04}{Add Makefile}
 % \changes{v1.6}{2011/09/03}{Bugfix: Fix babel for non-frenchb users (thanks to Marco Daniel)}
 % \changes{v1.5}{2011/09/01}{Bugfix: Put rotate box around text only (thanks to Wolfgang Ulmer)}
@@ -210,15 +211,19 @@
 % \begin{macro}{Variables}
 %    \begin{macrocode}
 \newcommand{\tab@style}{\Large\scshape}
-\newcommand{\tab@height}{4cm}
-\newcommand{\tab@width}{1cm}
+\newlength{\tab@height}
+\setlength{\tab@height}{4cm}
+\newlength{\tab@width}
+\setlength{\tab@width}{1cm}
 \newcommand{\tab@count}{6}
 \newcommand{\tab@leftcolor}{white}
 \newcommand{\tab@rightcolor}{gray!50}
-\newcommand{\tab@top}{\tab@height}
+\newlength{\tab@top}
+\setlength{\tab@top}{\the\tab@height}
 \newcommand{\tab@textvpos}{0.5}
 \newcommand{\tab@texthpos}{\tab@textvpos}
-\newcommand{\tab@gap}{0in}
+\newlength{\tab@gap}
+\setlength{\tab@gap}{0in}
 \newcommand{\tab@floor}{0}
 %    \end{macrocode}
 % \end{macro}
@@ -227,15 +232,15 @@
 % \begin{macro}{Accessors}
 %    \begin{macrocode}
 \newcommand{\fancytabsStyle}[1]{\renewcommand{\tab@style}{#1}}
-\newcommand{\fancytabsHeight}[1]{\renewcommand{\tab@height}{#1}}
-\newcommand{\fancytabsWidth}[1]{\renewcommand{\tab@width}{#1}}
+\newcommand{\fancytabsHeight}[1]{\setlength{\tab@height}{#1}}
+\newcommand{\fancytabsWidth}[1]{\setlength{\tab@width}{#1}}
 \newcommand{\fancytabsCount}[1]{\renewcommand{\tab@count}{#1}}
 \newcommand{\fancytabsLeftColor}[1]{\renewcommand{\tab@leftcolor}{#1}}
 \newcommand{\fancytabsRightColor}[1]{\renewcommand{\tab@rightcolor}{#1}}
-\newcommand{\fancytabsTop}[1]{\renewcommand{\tab@top}{#1}}
+\newcommand{\fancytabsTop}[1]{\setlength{\tab@top}{#1}}
 \newcommand{\fancytabsTextVPos}[1]{\renewcommand{\tab@textvpos}{#1}}
 \newcommand{\fancytabsTextHPos}[1]{\renewcommand{\tab@texthpos}{#1}}
-\newcommand{\fancytabsGap}[1]{\renewcommand{\tab@gap}{#1}}
+\newcommand{\fancytabsGap}[1]{\setlength{\tab@gap}{#1}}
 \newcommand{\fancytabsFloor}[1]{\renewcommand{\tab@floor}{#1}}
 %    \end{macrocode}
 % \end{macro}
@@ -265,16 +270,16 @@
 %    \begin{macrocode}
 \newcommand{\fancytab}[2]{%
   \begin{tikzpicture}[remember picture,overlay]%
-    \node[yshift={-1*(\tab@top+\tab@height/2+
+    \node[yshift={-1*(\the\tab@top+\the\tab@height/2+
                  mod(#2-1-\tab@floor,\tab@count)*
-                 (\tab@height+\tab@gap))},
-                  xshift=-0.5*\tab@width]
+                 (\the\tab@height+\the\tab@gap))},
+                  xshift=-0.5*\the\tab@width]
       at (current page.north east) {
       \tikz\shade[shading=axis,bottom color=\tab@leftcolor,
-                  top color=\tab@rightcolor,shading angle=-90] 
-        (0,0) rectangle (\tab@width,\tab@height)
+                  top color=\tab@rightcolor,shading angle=-90]
+        (0,0) rectangle (\the\tab@width,\the\tab@height)
            node[rotate=0]
-                  at (\tab@texthpos*\tab@width,\tab@textvpos*\tab@height)
+                  at (\tab@texthpos*\the\tab@width,\tab@textvpos*\the\tab@height)
                       {\rotatebox{90}{\tab@style#1}};%
     };%
   \end{tikzpicture}%
