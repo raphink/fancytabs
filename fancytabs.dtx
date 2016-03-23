@@ -225,6 +225,7 @@
 \newlength{\tab@gap}
 \setlength{\tab@gap}{0in}
 \newcommand{\tab@floor}{0}
+\newcommand{\tab@rotate}{90}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -242,6 +243,7 @@
 \newcommand{\fancytabsTextHPos}[1]{\renewcommand{\tab@texthpos}{#1}}
 \newcommand{\fancytabsGap}[1]{\setlength{\tab@gap}{#1}}
 \newcommand{\fancytabsFloor}[1]{\renewcommand{\tab@floor}{#1}}
+\newcommand{\fancytabsRotate}[1]{\renewcommand{\tab@rotate}{#1}}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -280,7 +282,7 @@
         (0,0) rectangle (\the\tab@width,\the\tab@height)
            node[rotate=0]
                   at (\tab@texthpos*\the\tab@width,\tab@textvpos*\the\tab@height)
-                      {\rotatebox{90}{\tab@style#1}};%
+                      {\rotatebox{\tab@rotate}{\tab@style#1}};%
     };%
   \end{tikzpicture}%
 }
