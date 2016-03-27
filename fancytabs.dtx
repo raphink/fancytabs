@@ -102,9 +102,10 @@
 %
 % \DescribeMacro{\fancytab}
 % The |\fancytab| macro adds a new tab.
-% It takes two arguments:
-% |\fancytab{<text>}{<position>}|
-% and displays the text in the tab, on given vertical position.
+% It takes two mandatory arguments, and one optional:
+% |\fancytab[<LEFT,RIGHT>]{<text>}{<position>}|
+% and displays the text in the tab, on given vertical position,
+% at LEFT or RIGHT horizontal position. Default is RIGHT.
 %
 % \subsection{Adding a tab to all odd pages with scrpage2}
 %
@@ -274,19 +275,28 @@
 % \begin{macro}{\fancytab}
 % We define the |\fancytab| macro to generate a new tab.
 %    \begin{macrocode}
-\newcommand{\fancytab}[2]{%
+\newcommand{\fancytab}[3][RIGHT]{%
+  \ifstrequal{#1}{LEFT}
+    {
+      \newcommand{\eastwest}{west}
+      \newcommand{\multiplier}{0.5}
+    }
+    { %else
+      \newcommand{\eastwest}{east}
+      \newcommand{\multiplier}{-0.5}
+    }
   \begin{tikzpicture}[remember picture,overlay]%
     \node[yshift={-1*(\the\tab@top+\the\tab@height/2+
-                 mod(#2-1-\tab@floor,\tab@count)*
+                 mod(#3-1-\tab@floor,\tab@count)*
                  (\the\tab@height+\the\tab@gap))},
-                  xshift=-0.5*\the\tab@width]
-      at (current page.north east) {
+                  xshift=\multiplier*\the\tab@width]
+      at (current page.north \eastwest) {
       \tikz\shade[shading=axis,bottom color=\tab@leftcolor,
                   top color=\tab@rightcolor,shading angle=-90]
         (0,0) rectangle (\the\tab@width,\the\tab@height)
            node[rotate=0]
                   at (\tab@texthpos*\the\tab@width,\tab@textvpos*\the\tab@height)
-                      {\rotatebox{\tab@rotate}{\tab@style#1}};%
+                      {\rotatebox{\tab@rotate}{\tab@style#2}};%
     };%
   \end{tikzpicture}%
 }
