@@ -1,7 +1,7 @@
 require 'pdf/reader'
 
-describe 'Moderntimeline PDF' do
-  reader = PDF::Reader.new('moderntimeline.pdf')
+describe 'Fancytabs PDF' do
+  reader = PDF::Reader.new('fancytabs.pdf')
   it 'should have 11 pages' do
     reader.page_count.should eq(3)
   end
