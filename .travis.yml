@@ -1,12 +1,19 @@
-# There no language TeX
+# There is no language TeX
 language: c
 install:
-  - sudo apt-get update
-  - sudo apt-get install texlive-latex-extra poppler-utils
-  - gem install bundler
-  - bundle update
+- sudo apt-get update
+- sudo apt-get install texlive-latex-extra poppler-utils
+- gem install bundler
+- bundle update
 script: make fancytabs.pdf && make check
 after_success:
-  # Only deploy when tag matches VERSION
-  - grep -q "VERSION\s*=\s*${TRAVIS_BRANCH}$" Makefile && sudo apt-get install texlive-extra-utils libwww-mechanize-perl
-  - grep -q "VERSION\s*=\s*${TRAVIS_BRANCH}$" Makefile && make upload
+# Only deploy when tag matches VERSION
+- grep -q "VERSION\s*=\s*${TRAVIS_BRANCH}$" Makefile && sudo apt-get install texlive-extra-utils
+  libwww-mechanize-perl
+deploy:
+  provider: releases
+  api_key:
+    secure: JM/sT77r1O4teYgmfDwQm5FYNTuHN8NjMJk7e1ZOlIUdQFBUBAWEF8AAC+bHpFj3q/zgEs5yGmKmuMNM4P38OShLM2R9A5kPTwQhJzyRXEy5MCEAHEE8pjnFZkhwwlJ3Rsep2O82y/B+Fc/d+zEzILop+mMVgPrCre40NxRgQxE=
+  file: fancytabs.tar.gz
+  on:
+    repo: raphink/fancytabs
