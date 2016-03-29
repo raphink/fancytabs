@@ -2,8 +2,8 @@ require 'pdf/reader'
 
 describe 'Fancytabs PDF' do
   reader = PDF::Reader.new('fancytabs.pdf')
-  it 'should have 11 pages' do
-    reader.page_count.should eq(3)
+  it 'should have 4 pages' do
+    reader.page_count.should eq(4)
   end
   it 'should be made by TeX' do
     reader.info[:Creator].should eq('TeX')
