@@ -15,6 +15,11 @@ SOURCEFILES   = $(CONTRIBUTION).dtx $(CONTRIBUTION).ins
 PKGFILES      = $(CONTRIBUTION).sty
 DOCFILES      = $(CONTRIBUTION).pdf
 
+TEXINSTALLDIR = /usr/local/texlive/texmf-local
+
+# Checks
+EXPECTED_PAGES = 9
+
 export CONTRIBUTION VERSION NAME EMAIL SUMMARY DIRECTORY DONOTANNOUNCE ANNOUNCE NOTES LICENSE FREEVERSION FILE
 
 # default rule
@@ -26,12 +31,16 @@ $(FILE): README $(SOURCEFILES) $(DOCFILES) $(PKGFILES)
 %.sty: %.dtx %.ins
 	latex $*.ins
 
+%.pdf: %.tex
+	pdflatex -interaction=batchmode $<
+	pdflatex -interaction=batchmode $<
+
 $(CONTRIBUTION).pdf: $(CONTRIBUTION).sty
 	pdflatex -interaction=batchmode $(CONTRIBUTION).dtx
 	pdflatex -interaction=batchmode $(CONTRIBUTION).dtx
 
 upload: ctanify
-	$(CTANUPLOAD) -p
+	$(CTANUPLOAD) -P
 
 %.tds.zip: %.tar.gz
 	tar xzf $< $@
@@ -46,4 +55,8 @@ clean:
 	rm -f *.aux *.glo *.idx *.log
 	rm -f $(DOCFILES) $(PKGFILES)
 	rm -f $(FILE)
+
+check: $(CONTRIBUTION).pdf
+	test -e $(CONTRIBUTION).pdf
+	rspec spec/pdf_spec.rb
 
