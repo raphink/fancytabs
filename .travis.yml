@@ -9,6 +9,7 @@ script: make fancytabs.pdf && make check
 after_success:
 # Only deploy when tag matches VERSION
 - grep -q "VERSION\s*=\s*${TRAVIS_BRANCH}$" Makefile && sudo apt-get install texlive-extra-utils
+- grep -q "VERSION\s*=\s*${TRAVIS_BRANCH}$" Makefile && make fancytabs.tds.zip
   libwww-mechanize-perl
 deploy:
   provider: releases
