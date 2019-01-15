@@ -47,7 +47,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{141}
+% \CheckSum{145}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -279,27 +279,29 @@
 % \begin{macro}{\fancytab}
 % We define the |\fancytab| macro to generate a new tab.
 %    \begin{macrocode}
+\newcommand\tab@eastwest{}
+\newcommand\tab@multiplier{}
 \newcommand{\fancytab}[3][RIGHT]{%
-  \ifstrequal{#1}{LEFT}
-    {
-      \newcommand{\eastwest}{west}
-      \newcommand{\multiplier}{0.5}
-    }
-    { %else
-      \newcommand{\eastwest}{east}
-      \newcommand{\multiplier}{-0.5}
+  \ifstrequal{#1}{LEFT}%
+    {%
+      \renewcommand{\tab@eastwest}{west}%
+      \renewcommand{\tab@multiplier}{0.5}%
+    }%
+    {%else
+      \renewcommand{\tab@eastwest}{east}%
+      \renewcommand{\tab@multiplier}{-0.5}%
     }
   \begin{tikzpicture}[remember picture,overlay]%
-    \node[yshift={-1*(\the\tab@top+\the\tab@height/2+
-                 mod(#3-1-\tab@floor,\tab@count)*
-                 (\the\tab@height+\the\tab@gap))},
-                  xshift=\multiplier*\the\tab@width]
-      at (current page.north \eastwest) {
-      \tikz\shade[shading=axis,bottom color=\tab@leftcolor,
-                  top color=\tab@rightcolor,shading angle=-90]
-        (0,0) rectangle (\the\tab@width,\the\tab@height)
-           node[rotate=0]
-                  at (\tab@texthpos*\the\tab@width,\tab@textvpos*\the\tab@height)
+    \node[yshift={-1*(\the\tab@top+\the\tab@height/2+%
+                 mod(#3-1-\tab@floor,\tab@count)*%
+                 (\the\tab@height+\the\tab@gap))},%
+                  xshift=\tab@multiplier*\the\tab@width]%
+      at (current page.north \tab@eastwest) {%
+      \tikz\shade[shading=axis,bottom color=\tab@leftcolor,%
+                  top color=\tab@rightcolor,shading angle=-90]%
+        (0,0) rectangle (\the\tab@width,\the\tab@height)%
+           node[rotate=0]%
+                  at (\tab@texthpos*\the\tab@width,\tab@textvpos*\the\tab@height)%
                       {\rotatebox{\tab@rotate}{\tab@style#2}};%
     };%
   \end{tikzpicture}%
