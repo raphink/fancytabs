@@ -47,7 +47,7 @@
 %</driver>
 % \fi
 %
-% \CheckSum{142}
+% \CheckSum{141}
 %
 % \CharacterTable
 %  {Upper-case    \A\B\C\D\E\F\G\H\I\J\K\L\M\N\O\P\Q\R\S\T\U\V\W\X\Y\Z
@@ -94,7 +94,7 @@
 % \maketitle
 %
 % \thispagestyle{scrheadings}
-% 
+%
 % \begin{abstract}
 % The \textsf{fancytabs} package allows to insert tabs
 % on the border of pages.
@@ -121,7 +121,7 @@
 % \usepackage{scrpage2}
 % \usepackage{fancytabs}
 % \usepackage{lipsum}
-% 
+%
 % % Capture chapter head
 % \let\oldchapter\chapter
 % \newcommand\temphead{}
@@ -137,10 +137,10 @@
 %        {\fancytab{\chaphead}{\thechapter}}
 % \renewcommand*{\chapterpagestyle}{scrplain}
 % \pagestyle{scrheadings}
-% 
+%
 % \begin{document}
 % \chapter{A chapter}
-% 
+%
 % \lipsum
 % \lipsum
 %
@@ -213,11 +213,10 @@
 % \fi
 %
 %    \begin{macrocode}
-\ProvidesPackage{fancytabs}
 \RequirePackage{tikz}
 \RequirePackage{etoolbox}
 %    \end{macrocode}
-% 
+%
 % \begin{macro}{Variables}
 %    \begin{macrocode}
 \newcommand{\tab@style}{\Large\scshape}
@@ -265,14 +264,14 @@
 % by babel locally.
 %
 %    \begin{macrocode}
-\AtBeginDocument{\@ifpackageloaded{babel} 
-  {\@ifundefined{active@char;}{}{% 
-    \g@addto@macro\tikz@installcommands{% 
-      \shorthandoff{;}}% 
-      \g@addto@macro\tikz@uninstallcommands{% 
-        \shorthandon{;}}% 
-  }% 
-  }{}% 
+\AtBeginDocument{\@ifpackageloaded{babel}
+  {\@ifundefined{active@char;}{}{%
+    \g@addto@macro\tikz@installcommands{%
+      \shorthandoff{;}}%
+      \g@addto@macro\tikz@uninstallcommands{%
+        \shorthandon{;}}%
+  }%
+  }{}%
 }
 %    \end{macrocode}
 % \end{macro}
